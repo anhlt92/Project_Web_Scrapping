@@ -9,7 +9,7 @@ print(list_script)
 pattern = r'[^<\sscript type=\"application/ld+json\">](.*)[^</script>]'
 
 # Convert nontype to string to modify
-a = str(products[1])
+a = str(list_script[1])
 #print(re.find(pattern, a))
 
 # Find all string that match with pattern and store it to variable abc
