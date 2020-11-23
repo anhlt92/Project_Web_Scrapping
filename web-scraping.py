@@ -4,10 +4,7 @@ import pandas as pd
 from bs4 import BeautifulSoup
 
 page_number = 1
-
 data = []
-
-len_a = 48
 check = True
 x= 0
 
@@ -48,7 +45,7 @@ def get_star(product_position):
   
 
 
-while(page_number < 5):
+while(check):
 
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36'}
 
@@ -60,7 +57,9 @@ while(page_number < 5):
     products = soup.find_all('div', {'class':'product-item'})
 
     product_position = 1
-
+    
+    data_check = []
+    
     for product in products:
 
         # Each product is dictionary containing the required information
@@ -131,20 +130,23 @@ while(page_number < 5):
             d['installment'] = (product.find('div', {'badge-benefits'}).text)
         #print(7)
         # Append the dictionary to data list
+        data_check.append(d)
         data.append(d)
-        
+    
+
+    if page_number == 1:
+      data_page_previous = len(data)
+      len_a = len(data)
+
+
     if len(data) > len_a or (len(data) == len_a and page_number == 1):
+        if len(data_check) < data_page_previous:
+          check = False
+          break
         page_number += 1
+        data_page_previous = len(data_check)
         len_a = len(data)
         x+=1
         print(len(data))
         print(data[-1])
     
-
-    #total_data.extend(data)
-    #print(len(total_data))
-
-products = pd.DataFrame(data = data, columns = data[0].keys())
-products.to_pickle("./result.pkl")
-unpickled_result = pd.read_pickle("./result.pkl")
-unpickled_result
