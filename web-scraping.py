@@ -5,8 +5,10 @@ from bs4 import BeautifulSoup
 
 page_number = 1
 data = []
+len_previous_total_product = 0
+len_previous_page = 0
 check = True
-x= 0
+#x= 0
 
 
 
@@ -63,7 +65,7 @@ while(check):
     for product in products:
 
         # Each product is dictionary containing the required information
-        d = {'product_id':'', 'seller_id':'', 'title':'', 'price':'', 'image_url':'', 'product_page_url':'', 'tiki-now':'', 'freeship':'', 'number-review':'','percentage-star':'', 'badge-under-price':'', 'discount-percentage':'', 'shocking-price':'', 'installment':'' }
+        d = {'product_id':'', 'seller_id':'', 'title':'', 'price':'', 'image_url':'', 'product_page_url':'', 'tiki-now':'', 'freeship':'', 'number-review':'','percentage-star':'', 'badge-under-price':'', 'discount-percentage':'', 'shocking-price':'', 'installment':'' , 'free-gift':''}
 
         # We use the try-except blocks to handle errors
         d['product_id'] = product['product-sku']
@@ -129,6 +131,9 @@ while(check):
         if product.find('div', {'badge-benefits'}):
             d['installment'] = (product.find('div', {'badge-benefits'}).text)
         #print(7)
+
+        if product.find('div',{'class':'freegift-list'}):
+          d['free-gift'] = product.find('div',{'class':'freegift-list'}).text
         # Append the dictionary to data list
         data_check.append(d)
         data.append(d)
@@ -136,17 +141,35 @@ while(check):
 
     if page_number == 1:
       data_page_previous = len(data)
-      len_a = len(data)
+      len_previous_total_product = len(data)
 
 
-    if len(data) > len_a or (len(data) == len_a and page_number == 1):
+    if len(data) > len_previous_total_product or (len(data) == len_previous_total_product and page_number == 1):
         if len(data_check) < data_page_previous:
           check = False
           break
         page_number += 1
         data_page_previous = len(data_check)
-        len_a = len(data)
-        x+=1
-        print(len(data))
-        print(data[-1])
+        len_previous_total_product = len(data)
+        #x+=1
+        #print(len(data))
+        #print(data[-1])
     
+    
+
+    #total_data.extend(data)
+    #print(len(total_data))
+'''  
+import pandas as pd
+
+products = pd.DataFrame(data = data, columns = data[0].keys())
+print(products)
+
+
+products.to_pickle("./result.pkl")
+unpickled_result = pd.read_pickle("./result.pkl")
+unpickled_result
+
+products.to_csv("./result.csv", index=False)
+
+'''
