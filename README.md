@@ -1,4 +1,4 @@
-# Week_1_Project_Group3
+# WEB-SCRAPING PROJECT 
 Web Scrapping
 
 Result : https://docs.google.com/spreadsheets/d/1BTJgfg_YCdx90ZhIJzwJ25AZr79NiZ4oGXFG-BPJzEo/edit?usp=sharing
@@ -7,13 +7,13 @@ Result : https://docs.google.com/spreadsheets/d/1BTJgfg_YCdx90ZhIJzwJ25AZr79NiZ4
 ## WEB-SCRAPING (TIKI)
 
 
-### PROBLEM 1 : Each time you try to request the web link, it could be change the tag of "product-item" : \<a> or \<div>
+### CHALLENGE 1 : Each time you try to request the web link, it could be change the tag of "product-item" : \<a> or \<div>
 
  B'c the only tag \<div> has product information, so when it loads the product-item with tag \<a>, we dont get any product information here
 
               -> SOLUTION : When we get the length of total_data, we'll compare with the previous total_data, to see whether the length increasing or not, if it inscreases, we go to the next page, but if it's not (tag \<a>), I request this page again till get the information (tag \<div>), I switch to a next page.
 
-### PROBLEM 2 : Almost information is found in tag <\div>, but the star rating. \nFinally, we found it from the script json:
+### CHALLENGE 2 : Almost information is found in tag <\div>, but the star rating. \nFinally, we found it from the script json:
 
               -> SOLUTION : To get the information inside json, we have 2 options : 
                   + No1 : use regex to get the only one infomation of star rating
